@@ -4,122 +4,122 @@ using namespace std;
 
                //Print a Linked List//
 
-// class Node {
-//     public:
-//     int data;
-//     Node* next;
+class Node {
+    public:
+    int data;
+    Node* next;
 
-//    Node(int val){
-//          data = val;
-//          next = NULL;
-//     }
+   Node(int val){
+         data = val;
+         next = NULL;
+    }
 
-// };
+};
 
-// class List{
-//     Node* head;
-//     Node* tail;
+class List{
+    Node* head;
+    Node* tail;
 
-//     public :
-//     List(){
-//         head = tail = NULL;
+    public :
+    List(){
+        head = tail = NULL;
 
-//     }
-//                  //push_front    //O(1)
+    }
+                 //push_front    //O(1)
 
-//         void push_front(int val) {
-//         Node* newNode = new Node(val); //dynamic
-//         if(head == NULL){
-//             head = tail = newNode;
-//             return;
-//         }
-//         else{
-//             newNode->next = head;
-//             head = newNode;
-//         }
-//     }
-//               //push_back   //O(1)
+        void push_front(int val) {
+        Node* newNode = new Node(val); //dynamic
+        if(head == NULL){
+            head = tail = newNode;
+            return;
+        }
+        else{
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+              //push_back   //O(1)
 
-//     void push_back(int val){
-//         Node* newNode = new Node(val); //dynamic
-//         if(head == NULL){
-//             head = tail = newNode;
-//             return;
-//         }
-//         else{
-//             tail->next = newNode;
-//             tail = newNode;
-//         }
-//     }
-//            //pop_front  //O(1)
+    void push_back(int val){
+        Node* newNode = new Node(val); //dynamic
+        if(head == NULL){
+            head = tail = newNode;
+            return;
+        }
+        else{
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+           //pop_front  //O(1)
 
-//     void pop_front(){
-//         if(head == NULL){
-//             cout << "List is empty" << endl;
-//             return;
-//         }
-//         else{
-//             Node* temp = head;
-//             head = head->next;
-//             temp->next = NULL;
-//             delete temp;
-//         }
-//     }
+    void pop_front(){
+        if(head == NULL){
+            cout << "List is empty" << endl;
+            return;
+        }
+        else{
+            Node* temp = head;
+            head = head->next;
+            temp->next = NULL;
+            delete temp;
+        }
+    }
 
-//              //pop_back   //O(n)
+             //pop_back   //O(n)
 
-//     void pop_back(){
-//         if(head == NULL){
-//             cout << "List is empty" << endl;
-//             return;
-//         }
-//         else if(head == tail){
-//             delete head;
-//             head = tail = NULL;
-//         }
-//         else{
-//             Node* temp = head;
-//             while(temp->next != tail){
-//                 temp = temp->next;
-//             }
-//             temp->next = NULL;
-//             delete tail;
-//             tail = temp;
-//         }
-//     }
+    void pop_back(){
+        if(head == NULL){
+            cout << "List is empty" << endl;
+            return;
+        }
+        else if(head == tail){
+            delete head;
+            head = tail = NULL;
+        }
+        else{
+            Node* temp = head;
+            while(temp->next != tail){
+                temp = temp->next;
+            }
+            temp->next = NULL;
+            delete tail;
+            tail = temp;
+        }
+    }
 
-//              //printLL  //O(n)
+             //printLL  //O(n)
 
-//     void printLL(){
-//         Node* temp = head;
-//         while(temp != NULL){
-//             cout << temp->data << "->";
-//             temp = temp->next;
-//         }
-//         cout << "NULL" << endl;
-//     }
-// };
+    void printLL(){
+        Node* temp = head;
+        while(temp != NULL){
+            cout << temp->data << "->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+    }
+};
 
-// int main(){
-//     List ll;
+int main(){
+    List ll;
 
-//     ll.push_front(1);
-//     ll.push_front(2);
-//     ll.push_front(3);
+    ll.push_front(1);
+    ll.push_front(2);
+    ll.push_front(3);
 
-//     ll.push_back(7);
-//     ll.push_back(8);
+    ll.push_back(7);
+    ll.push_back(8);
 
-//     ll.printLL();
+    ll.printLL();
 
-//     ll.pop_front();
-//     ll.pop_back();
+    ll.pop_front();
+    ll.pop_back();
 
-//     ll.printLL();
+    ll.printLL();
     
 
-//     return 0;
-// }
+    return 0;
+}
 
                 //Insert in Middle of LL//
 
@@ -143,7 +143,7 @@ class List{
     List(){
         head = tail = NULL;
 
-    }
+}
                  //push_front
 
         void push_front(int val) {

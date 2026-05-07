@@ -188,6 +188,20 @@ void kthLevel(Node* root, int k){  //O(n)
     kthLevel(root->right, k-1);
 }
 
+// Transform to sum tree
+int transform(Node* root){  //O(n)
+    if(root == NULL){ 
+        return 0;
+    }
+
+    int leftSum = transform(root->left);
+    int rightSum = transform(root->right);
+
+    root->data = leftSum + rightSum + root->data;
+
+    return root->data;
+
+}
     
 
 int main(){
@@ -198,26 +212,36 @@ int main(){
     // cout << root->left->data << endl;
     // cout << root->right->data << endl;
 
+    // preorder(root);
+    // cout << endl;
+
+    // inorder(root);
+    // cout << endl;
+
+    // postorder(root);
+    // cout << endl;
+
+    // levelorder(root);
+    // cout << endl;
+
+    // cout << "Height of the binary tree: " << height(root) << endl;
+    // cout << "Count of nodes: " << count(root) << endl;
+    // cout << "Sum of nodes: " << sum(root) << endl;
+
+    // topView(root);
+
+    // kthLevel(root, 2);
+
+    cout << "before transformation: ";
     preorder(root);
     cout << endl;
 
-    inorder(root);
+    transform(root);
+
+    cout << "after transformation: ";
+    preorder(root);
     cout << endl;
-
-    postorder(root);
-    cout << endl;
-
-    levelorder(root);
-    cout << endl;
-
-    cout << "Height of the binary tree: " << height(root) << endl;
-    cout << "Count of nodes: " << count(root) << endl;
-    cout << "Sum of nodes: " << sum(root) << endl;
-
-    topView(root);
-
-    kthLevel(root, 2);
-
+    
     return 0;
 }
 
