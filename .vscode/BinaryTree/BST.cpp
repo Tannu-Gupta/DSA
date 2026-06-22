@@ -213,50 +213,133 @@ public:
 
               //FIndSize of Lrgest  BST in binary tree
 
-class Info {
-public:
-    int min, max, sz;
+// class Info {
+// public:
+//     int min, max, sz;
 
-    Info(int mi, int ma, int size) {
-        min = mi;
-        max = ma;
-        sz = size;
+//     Info(int mi, int ma, int size) {
+//         min = mi;
+//         max = ma;
+//         sz = size;
+//     }
+// };       
+
+// Info helper(Node* root){
+//     if(root == NULL){
+//         return Info(INT_MAX, INT_MIN, 0);
+//     }
+
+//     Info left = helper(root->left);
+//     Info right = helper(root->right);
+
+//     if(root->data > left.max && root->data < right.min){
+//          int currMin = min(root->data, left.min);
+//          int currMax = max(root->data, right.max);
+//          int currSz = left.sz + right.sz + 1;
+
+//         return Info(currMin, currMax, currSz);
+//     }
+
+//     return Info(INT_MIN, INT_MAX, max(left.sz, right.sz));
+// }
+
+// int largestBSTinBT(Node* root){
+//     Info info = helper(root);
+//     return info.sz;
+// }
+
+// int main(){
+//     Node* root = new Node(10);
+//     root->left = new Node(5);
+//     root->right = new Node(15);
+//     root->left->left = new Node(1);
+//     root->left->right = new Node(8);
+//     root->right->right = new Node(7);
+
+//     cout << "Size of largest BST in binary tree: " << largestBSTinBT(root) << endl;
+
+//     return 0;
+// }
+
+
+    //Find Predecessor and Successor in BST
+
+   Node* rightMostInLeftSubtree(Node* root){
+    Node* ans;
+
+    while(root != NULL){
+        ans = root;
+        root = root->right;
     }
-};       
+    return ans;
 
-Info helper(Node* root){
-    if(root == NULL){
-        return Info(INT_MAX, INT_MIN, 0);
     }
 
-    Info left = helper(root->left);
-    Info right = helper(root->right);
+    Node* leftMostInRightSubtree(Node* root){
+    Node* ans;
 
-    if(root->data > left.max && root->data < right.min){
-         int currMin = min(root->data, left.min);
-         int currMax = max(root->data, right.max);
-         int currSz = left.sz + right.sz + 1;
+    while(root != NULL){
+        ans = root;
+        root = root->left;
+    }
+    return ans;
 
-        return Info(currMin, currMax, currSz);
     }
 
-    return Info(INT_MIN, INT_MAX, max(left.sz, right.sz));
-}
+vector<int> getPredSucc(Node* root, int key){   
+    //0th pred, 1st succ
+  
+    Node* curr = root;
+    Node* pred = NULL;
+    Node* succ = NULL;
 
-int largestBSTinBT(Node* root){
-    Info info = helper(root);
-    return info.sz;
+    while(curr != NULL){
+       if(key < curr->data){
+        succ = curr;
+        curr = curr->left;
+       }
+
+       else if(key > curr->data){
+        pred = curr;
+        curr = curr->right;
+       }
+
+       else {
+        //key found
+
+        //predecessor
+        if(curr->left != NULL){
+            pred = rightMostInLeftSubtree(curr->left);
+
+        }
+
+        if(curr->right != NULL){
+            succ = leftMostInRightSubtree(curr->right);
+
+        }
+
+        break;
+       }
+
+    }
+
+    return {pred->data, succ->data};
+
 }
 
 int main(){
-    Node* root = new Node(10);
-    root->left = new Node(5);
-    root->right = new Node(15);
+    Node* root = new Node(6);
+    root->left = new Node(4);
+    root->right = new Node(8);
     root->left->left = new Node(1);
-    root->left->right = new Node(8);
-    root->right->right = new Node(7);
+    root->left->right = new Node(5);
+    root->right->left = new Node(7);
+    root->right->right = new Node(9);
 
-    cout << "Size of largest BST in binary tree: " << largestBSTinBT(root) << endl;
+    int key = 7;
+    vector<int> ans = getPredSucc(root, key);
+    cout << "Predecessor: " << ans[0] << endl;
+    cout << "Successor: " << ans[1] << endl;
 
     return 0;
 }
