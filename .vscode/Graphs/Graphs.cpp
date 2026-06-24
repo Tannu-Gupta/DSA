@@ -126,55 +126,89 @@ public:
 
                  //BFS Cycle Detection in Undirected Graph     TC:O(V+E)
                  
-                 bool isCycleUndirectedBFS(int src, vector<bool> &visited){  //bfs algo
-                    queue<pair<int, int>> Q;
-                    Q.push({src, -1});
-                    visited[src] = true;
+//                  bool isCycleUndirectedBFS(int src, vector<bool> &visited){  //bfs algo
+//                     queue<pair<int, int>> Q;
+//                     Q.push({src, -1});
+//                     visited[src] = true;
 
-                    while(Q.size() > 0){
-                        int u = Q.front().first;
-                        int parU = Q.front().second;
-                        Q.pop();
+//                     while(Q.size() > 0){
+//                         int u = Q.front().first;
+//                         int parU = Q.front().second;
+//                         Q.pop();
                         
-                        list<int> neighbours = l[u];
-                        for(int v : neighbours){
-                            if(!visited[v]){
-                                Q.push({v, u}); 
-                                visited[v] = true;     //u--------------v
-                            } 
-                            else if(v != parU){
-                                return true;
-                            }
-                        }
-                    }
+//                         list<int> neighbours = l[u];
+//                         for(int v : neighbours){
+//                             if(!visited[v]){
+//                                 Q.push({v, u}); 
+//                                 visited[v] = true;     //u--------------v
+//                             } 
+//                             else if(v != parU){
+//                                 return true;
+//                             }
+//                         }
+//                     }
 
-                    return false;
-                 }
+//                     return false;
+//                  }
 
-                 bool isCycle(){
-                    vector<bool> visited(V, false);
+//                  bool isCycle(){
+//                     vector<bool> visited(V, false);
 
-                    for(int i=0; i<V; i++){
-                        if(!visited[i]){
-                            if(isCycleUndirectedBFS(i, visited)){
-                                return true;
-                            }
-                        }
-                    }
+//                     for(int i=0; i<V; i++){
+//                         if(!visited[i]){
+//                             if(isCycleUndirectedBFS(i, visited)){
+//                                 return true;
+//                             }
+//                         }
+//                     }
 
-                    return false;
-                 }
+//                     return false;
+//                  }
 
-};
+             //DFS Cycle Detection in Directed Graph     TC:O(V+E)
+    bool isCycleDirectedDFS(int curr, vector<bool> &visited, vector<bool> &recPath){
+        visited[curr] = true;
+        recPath[curr] = true;
+
+        for(int v : l[curr]){
+            if(!visited[v]){
+                if(isCycleDirectedDFS(v, visited, recPath)){
+                    return true;
+                }
+                
+            } else if(recPath[v]){
+                    return true;
+                }
+        }
+
+        recPath[curr] = false;
+        return false;
+
+    }
+
+    bool isCycle(){
+        vector<bool> visited(V, false);
+        vector<bool> recPath(V, false);
+
+        for(int i=0; i<V; i++){
+            if(!visited[i]){
+                if(isCycleDirectedDFS(i, visited, recPath)){
+                    return true;
+                }
+            }
+        }
+    return false;
+    }
+ };
 
 
 int main(){
     Graph g(5);
 
-    g.addEdge(0, 1);
+    g.addEdge(1, 0);
     g.addEdge(0, 2);
-    g.addEdge(0, 3);
-    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+    g.addEdge(3, 0);
     g.addEdge(3, 4);
 
     
