@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include <queue>
+#include <stack>
 using namespace std;
 
 class Graph{
@@ -18,7 +19,7 @@ public:
      
      void addEdge(int u, int v){
         l[u].push_back(v);
-        l[v].push_back(u);
+       // l[v].push_back(u);
      }
 
         //Print the adjacency list
@@ -166,50 +167,85 @@ public:
 //                  }
 
              //DFS Cycle Detection in Directed Graph     TC:O(V+E)
-    bool isCycleDirectedDFS(int curr, vector<bool> &visited, vector<bool> &recPath){
+    // bool isCycleDirectedDFS(int curr, vector<bool> &visited, vector<bool> &recPath){
+    //     visited[curr] = true;
+    //     recPath[curr] = true;
+
+    //     for(int v : l[curr]){
+    //         if(!visited[v]){
+    //             if(isCycleDirectedDFS(v, visited, recPath)){
+    //                 return true;
+    //             }
+                
+    //         } else if(recPath[v]){
+    //                 return true;
+    //             }
+    //     }
+
+    //     recPath[curr] = false;
+    //     return false;
+
+    // }
+
+    // bool isCycle(){
+    //     vector<bool> visited(V, false);
+    //     vector<bool> recPath(V, false);
+
+    //     for(int i=0; i<V; i++){
+    //         if(!visited[i]){
+    //             if(isCycleDirectedDFS(i, visited, recPath)){
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    // return false;
+    // }
+
+           //Topological Sort using DFS     TC:O(V+E)
+
+      void dfs(int curr, vector<bool> &visited, stack<int> &s){
         visited[curr] = true;
-        recPath[curr] = true;
 
         for(int v : l[curr]){
             if(!visited[v]){
-                if(isCycleDirectedDFS(v, visited, recPath)){
-                    return true;
-                }
-                
-            } else if(recPath[v]){
-                    return true;
-                }
-        }
-
-        recPath[curr] = false;
-        return false;
-
-    }
-
-    bool isCycle(){
-        vector<bool> visited(V, false);
-        vector<bool> recPath(V, false);
-
-        for(int i=0; i<V; i++){
-            if(!visited[i]){
-                if(isCycleDirectedDFS(i, visited, recPath)){
-                    return true;
-                }
+                dfs(v, visited, s);
             }
         }
-    return false;
+
+        s.push(curr);
     }
+
+    void topologicalSorting(){
+        vector<bool> visited(V, false);
+        stack<int> s;
+    
+        for(int i=0; i<V; i++){
+            if(!visited[i]){
+                dfs(i, visited, s);
+
+            }
+        }
+        
+        while(s.size() > 0){
+            cout << s.top() << " ";
+            s.pop();
+        }
+        cout << endl;
+
+      }     
+
  };
 
 
 int main(){
-    Graph g(5);
+    Graph g(6);
 
-    g.addEdge(1, 0);
-    g.addEdge(0, 2);
+    g.addEdge(5, 0);
+    g.addEdge(4, 0);
+    g.addEdge(5, 2);
     g.addEdge(2, 3);
-    g.addEdge(3, 0);
-    g.addEdge(3, 4);
+    g.addEdge(3, 1);
+    g.addEdge(4, 1);
 
     
    // g.printAdjList();
@@ -220,7 +256,9 @@ int main(){
 //    cout << "DFS Traversal: ";
 //    g.dfs();
 
-cout << g.isCycle() << endl;
+// cout << g.isCycle() << endl;
+
+g.topologicalSorting();
 
     return 0;
 }
