@@ -1,0 +1,76 @@
+class Solution {
+public:
+      bool isCycleDirectedDFS(int curr, vector<bool> &visited, vector<bool> &recPath, vector<vector<int>>& prerequisites){
+        visited[curr] = true;
+        recPath[curr] = true;
+
+        for(int i=0; i<prerequisites.size(); i++){
+            int u = prerequisites[i][1];
+            int v = prerequisites[i][0];
+
+            if(u == curr){
+                if(!visited[v]){
+                   if(isCycleDirectedDFS(v, visited, recPath, prerequisites)){
+                    return true;
+                }
+            }   else if(recPath[v]){
+                    return true;
+                }
+            }
+        }
+        
+
+        recPath[curr] = false;
+        return false;
+
+    }
+
+    void topodfs(int curr, vector<bool> &visited, stack<int> &s, vector<vector<int>>& prerequisites){
+        visited[curr] = true;
+
+        for(int i=0; i<prerequisites.size(); i++){
+            int u = prerequisites[i][1];
+            int v = prerequisites[i][0];
+
+            if(u == curr){
+            if(!visited[v]){
+                topodfs(v, visited, s, prerequisites);
+            }
+        }
+    }
+
+        s.push(curr);
+    }
+
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<bool> visited(numCourses, false);
+        vector<bool> recPath(numCourses, false);
+        vector<int> ans;
+    
+        for(int i=0; i<numCourses; i++){
+            if(!visited[i]){
+                if(isCycleDirectedDFS(i, visited, recPath, prerequisites)){
+                    return ans;             //NOT a DAG
+                }
+            }
+        }
+
+       //Topological Order    
+        stack<int> s;
+        visited.assign(numCourses, false);
+
+        for(int i=0; i<numCourses; i++){
+            if(!visited[i]){
+                topodfs(i, visited, s, prerequisites );
+            }
+        }
+        while(s.size() > 0){
+            ans.push_back(s.top());
+            s.pop();
+        }
+        
+        return ans;
+
+      
+    }
+};
