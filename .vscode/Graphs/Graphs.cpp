@@ -203,37 +203,85 @@ public:
 
            //Topological Sort using DFS     TC:O(V+E)
 
-      void dfs(int curr, vector<bool> &visited, stack<int> &s){
-        visited[curr] = true;
+    //   void dfs(int curr, vector<bool> &visited, stack<int> &s){
+    //     visited[curr] = true;
 
-        for(int v : l[curr]){
-            if(!visited[v]){
-                dfs(v, visited, s);
-            }
-        }
+    //     for(int v : l[curr]){
+    //         if(!visited[v]){
+    //             dfs(v, visited, s);
+    //         }
+    //     }
 
-        s.push(curr);
-    }
+    //     s.push(curr);
+    // }
 
-    void topologicalSorting(){
-        vector<bool> visited(V, false);
-        stack<int> s;
-    
-        for(int i=0; i<V; i++){
-            if(!visited[i]){
-                dfs(i, visited, s);
+    // void topologicalSorting(){
+    //     vector<bool> visited(V, false);
+    //     stack<int> s;
 
-            }
-        }
+    //     for(int i=0; i<V; i++){
+    //         if(!visited[i]){
+    //             dfs(i, visited, s);
+    //         }
+    //     }
         
-        while(s.size() > 0){
-            cout << s.top() << " ";
-            s.pop();
-        }
-        cout << endl;
+    //     while(s.size() > 0){
+    //         cout << s.top() << " ";
+    //         s.pop();
+    //     }
+    //     cout << endl;
 
-      }     
+    //   }     
 
+
+          //Topological Sort using BFS (Kahn's Algorithm)     TC:O(V+E)
+          void topologicalSort(){
+            vector<int> result;
+
+            //calculate indegree of all vertices
+            vector<int> indegree(V, 0);
+
+            for(int u=0; u<V; u++){
+                for(int v : l[u]){
+                    indegree[v]++;
+                }
+            }
+
+            //0 indegree => add in queue
+            queue<int> Q;
+            for(int i=0; i<V; i++){
+                if(indegree[i] == 0){
+                    Q.push(i);
+                }
+            }
+
+            //BFS loop 
+            while(Q.size() > 0){
+                int curr = Q.front();
+                Q.pop();
+                result.push_back(curr);
+
+                for(int v : l[curr]){
+                    indegree[v]--;
+                    if(indegree[v] == 0){
+                        Q.push(v);
+                    }
+                }
+            }
+
+            //print result
+            if(result.size() != V){
+                cout << "Cycle is present in the graph" << endl;
+                return;
+            }
+            
+            for(int val : result){
+                cout << val << " ";
+            }
+            cout << endl;
+
+
+          }
  };
 
 
@@ -258,7 +306,9 @@ int main(){
 
 // cout << g.isCycle() << endl;
 
-g.topologicalSorting();
+//g.topologicalSorting();
+
+g.topologicalSort();
 
     return 0;
 }
