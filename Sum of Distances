@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<long long> distance(vector<int>& nums) {
+
+        int n = nums.size();
+
+        vector<long long> ans(n, 0);
+
+        unordered_map<int, vector<int>> mp;
+
+        // Store all indices of each number
+        for (int i = 0; i < n; i++) {
+            mp[nums[i]].push_back(i);
+        }
+
+        // Calculate distances
+        for (auto &p : mp) {
+
+            vector<int>& v = p.second;
+
+            long long prefix = 0;
+
+            for (int i = 0; i < v.size(); i++) {
+
+                int idx = v[i];
+
+                // Distance from previous indices
+                ans[idx] += (long long)idx * i - prefix;
+
+                prefix += idx;
+            }
+
+            long long suffix = 0;
+
+            int total = v.size();
+
+            for (int i = total - 1; i >= 0; i--) {
+
+                int idx = v[i];
+
+                // Distance from next indices
+                ans[idx] += suffix - (long long)idx * (total - 1 - i);
+
+                suffix += idx;
+            }
+        }
+
+        return ans;
+    }
+};
