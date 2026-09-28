@@ -1,0 +1,22 @@
+class Solution {
+public:
+        //Brute force
+    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+        vector<int> flight(n+1, 0);
+        vector<int> ans;
+
+        for(auto b : bookings){
+            int first = b[0];
+            int last = b[1];
+            int seats = b[2];
+
+            for(int i=first; i<=last; i++){
+                flight[i] += seats;
+            }
+        }
+        for(int i=1; i<=n; i++){
+            ans.push_back(flight[i]);
+        }
+        return ans;
+    }
+};
