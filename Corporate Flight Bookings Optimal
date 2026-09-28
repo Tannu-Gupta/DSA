@@ -1,0 +1,25 @@
+lass Solution {
+public:
+        //Optimised
+    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+        vector<int> flight(n+2, 0);
+        vector<int> ans;
+
+        for(auto b : bookings){
+            int first = b[0];
+            int last = b[1];
+            int seats = b[2];
+
+            flight[first] += seats;
+            flight[last+1] -= seats;
+        }
+           //Prefix sum
+        for(int i=1; i<=n; i++){
+            flight[i] += flight[i-1];
+        }
+        for(int i=1; i<=n; i++){
+            ans.push_back(flight[i]);
+        }
+        return ans;
+    }
+};
