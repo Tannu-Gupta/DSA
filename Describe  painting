@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<long long>> splitPainting(vector<vector<int>>& segments) {
+        
+        map<int, long long> mp;
+
+        for(auto s : segments) {
+            mp[s[0]] += s[2];
+            mp[s[1]] -= s[2];
+        }
+
+        vector<vector<long long>> ans;
+
+        long long color = 0;
+        int prev = -1;
+
+        for(auto it : mp) {
+            int point = it.first;
+
+            if(prev != -1 && color > 0) {
+                ans.push_back({prev, point, color});
+            }
+
+            color += it.second;
+            prev = point;
+        }
+
+        return ans;
+    }
+};
